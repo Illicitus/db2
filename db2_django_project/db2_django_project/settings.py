@@ -34,6 +34,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # My apps
+    'accounts',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -51,7 +55,7 @@ ROOT_URLCONF = 'db2_django_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,6 +116,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "dev_static"),
 )
+
+# Login settings
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/home/'
+
+# User settings
+AUTH_USER_MODEL = 'accounts.User'
 
 try:
     from .local_settings import *

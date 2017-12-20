@@ -1,0 +1,64 @@
+{% extends 'basic.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Registration
+{% endblock title %}
+
+{% block content %}
+
+    <div class="registration" style="margin-top: 15%;">
+
+        <!-- Form block -->
+        <form class="form-row" action="{% url 'accounts:registration' %}" method="POST">
+
+            {% csrf_token %}
+
+            <!-- Non_field_errors -->
+            {% if error_message != None %}
+                <h6 style="text-align: center; color: orange;">{{ error_message }}</h6>
+            {% endif %}
+            {% for error in form.non_field_errors %}
+                {{ error | escape }}
+            {% endfor %}
+
+            <!-- Email -->
+            <div id="email" class="col-md-4 offset-md-4 text-center">
+                {% if form.email.errors %}
+                    <h6 style="text-align: center; color: orange;">{{ form.email.errors }}</h6>
+                {% endif %}
+                <label for="{{ form.email.id_for_label }}"></label>
+                {{ form.email }}
+            </div>
+
+            <!-- Password1 -->
+            <div id="password" class="col-md-4 offset-md-4 text-center">
+                {% if form.password1.errors %}
+                    <h6 style="text-align: center; color: orange;">{{ form.password1.errors }}</h6>
+                {% endif %}
+                <label for="{{ form.password1.id_for_label }}"></label>
+                {{ form.password1 }}
+            </div>
+
+            <!-- Password2 -->
+            <div id="password2" class="col-md-4 offset-md-4 text-center">
+                {% if form.password2.errors %}
+                    <h6 style="text-align: center; color: orange;">{{ form.password2.errors }}</h6>
+                {% endif %}
+                <label for="{{ form.password2.id_for_label }}"></label>
+                {{ form.password2 }}
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-md-6 offset-4 btn-group">
+                <div class="col-md-1 offset-md-1" style="margin-top: 20px">
+                    <button id="login-btn" class="btn btn-dark btn-lg" type="submit">Sign up</button>
+                </div>
+            </div>
+
+        </form>
+        <!-- End form block -->
+
+    </div>
+
+{% endblock content %}

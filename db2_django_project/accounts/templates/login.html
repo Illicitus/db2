@@ -1,0 +1,61 @@
+{% extends 'basic.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Login
+{% endblock title %}
+
+{% block content %}
+
+    <div class="login" style="margin-top: 15%;">
+
+        <!-- Form block -->
+        <form class="form-row" action="{% url 'accounts:login' %}" method="POST">
+
+            {% csrf_token %}
+
+            <!-- Non_field_errors -->
+            {% if error_message != None %}
+                <h6 style="text-align: center; color: orange;">{{ error_message }}</h6>
+            {% endif %}
+            {% for error in form.non_field_errors %}
+                {{ error | escape }}
+            {% endfor %}
+
+            <!-- Email -->
+            <div id="email" class="col-md-4 offset-md-4 text-center">
+                {% if form.email.errors %}
+                    <h6 style="text-align: center; color: orange;">{{ form.email.errors }}</h6>
+                {% endif %}
+                <label for="{{ form.email.id_for_label }}"></label>
+                {{ form.email }}
+            </div>
+
+            <!-- Password -->
+            <div id="password" class="col-md-4 offset-md-4 text-center">
+                {% if form.password.errors %}
+                    <h6 style="text-align: center; color: orange;">{{ form.password.errors }}</h6>
+                {% endif %}
+                <label for="{{ form.password.id_for_label }}"></label>
+                {{ form.password }}
+            </div>
+
+            <!-- Buttons -->
+            <div class="col-md-6 offset-4 btn-group">
+
+                <div class="col-md-1 offset-md-1" style="margin-top: 20px">
+                    <button id="login-btn" class="btn btn-dark btn-lg" type="submit">Login</button>
+                </div>
+
+                <div class="col-md-1 offset-md-2" style="margin-top: 20px">
+                    <a class="btn btn-dark btn-lg" type="button" href="{% url 'accounts:registration' %}">Sing up</a>
+                </div>
+
+            </div>
+
+        </form>
+        <!-- End form block -->
+
+    </div>
+
+{% endblock content %}
