@@ -1,0 +1,78 @@
+{% extends 'blog_basic.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Posts
+{% endblock title %}
+
+{% block content %}
+
+    <div class="basic-body">
+        <div class="container">
+            <div class="row">
+
+                {% for post in post_list %}
+                    <div class="col-md-4 text-center">
+                        <a href="{% url 'blog:article_detail' pk=post.pk %}">
+                            <h3>{{ post.title }}</h3>
+                        </a>
+                        {% if post.title_image %}
+                            <img src="{{ post.title_image.url }}" width="250" height="250"/>
+                        {% else %}
+                            <img src=" {% static 'img/christmas.jpg' %}" width="250" height="250"/>
+                        {% endif %}
+
+                        <p>{{ post.body }}</p>
+                        <p>Author: {{ post.author }}</p>
+                        <p>Created data: {{ post.created_date }}</p>
+                        <div class="like">
+                            <a href="{% url 'blog:like' post=post.id %}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+                            <p>{{ post.liked_by.count }}</p>
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+
+                <!-- Pagination block -->
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-2 offset-md-5 basic-body">
+                            <ul class="pagination pagination-sm">
+
+                                {% if post_list.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ post_list.previous_page_number }}{% if form.sort_by.value == None %}{% else %}&sort_by={{ form.sort_by.value }}{% endif %}&search_text={% if form.search_text.value == None %}{{ '' }}{% else %}{{ form.search_text.value }}{% endif %}">
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                {% endif %}
+
+                                {% for page in pagination %}
+                                    <li class="page-item" {% if page == post_list.number %} class="active" {% endif %}>
+                                        <a class="page-link"{% if page == '...' %}
+                                            >{{ page }}
+                                        {% else %}
+                                            href="?page={{ page }}{% if form.sort_by.value == None %}{% else %}&sort_by={{ form.sort_by.value }}{% endif %}&search_text={% if form.search_text.value == None %}{{ '' }}{% else %}{{ form.search_text.value }}{% endif %}">{{ page }}
+                                        {% endif %}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+
+                                {% if post_list.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ post_list.next_page_number }}{% if form.sort_by.value == None %}{% else %}&sort_by={{ form.sort_by.value }}{% endif %}&search_text={% if form.search_text.value == None %}{{ '' }}{% else %}{{ form.search_text.value }}{% endif %}
+                                "><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End pagination block -->
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

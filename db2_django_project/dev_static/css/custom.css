@@ -1,0 +1,39 @@
+.login {
+    margin-top: 50px;
+}
+
+.form-error {
+    text-align: center;
+    color: orange;
+}
+
+.custom-btn {
+    border-radius: 25px;
+}
+
+.nav-margin {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.text-white {
+    color: white;
+}
+
+.nav-text {
+    margin-top: 10px;
+}
+
+.basic-body {
+    margin-top: 25px;
+}
+
+.comment-body {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.comment {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

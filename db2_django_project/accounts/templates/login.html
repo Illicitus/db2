@@ -7,55 +7,71 @@
 
 {% block content %}
 
-    <div class="login" style="margin-top: 15%;">
+    <div class="container">
+        <div class="row">
 
-        <!-- Form block -->
-        <form class="form-row" action="{% url 'accounts:login' %}" method="POST">
+            <div class="login">
 
-            {% csrf_token %}
+                <!-- Form block -->
+                <form class="form-row" action="{% url 'accounts:login' %}" method="POST">
 
-            <!-- Non_field_errors -->
-            {% if error_message != None %}
-                <h6 style="text-align: center; color: orange;">{{ error_message }}</h6>
-            {% endif %}
-            {% for error in form.non_field_errors %}
-                {{ error | escape }}
-            {% endfor %}
+                    {% csrf_token %}
 
-            <!-- Email -->
-            <div id="email" class="col-md-4 offset-md-4 text-center">
-                {% if form.email.errors %}
-                    <h6 style="text-align: center; color: orange;">{{ form.email.errors }}</h6>
-                {% endif %}
-                <label for="{{ form.email.id_for_label }}"></label>
-                {{ form.email }}
+                    <div class="col-md-8 offset-md-4 text-center">
+                        <!-- Non_field_errors -->
+                        {% if error_message != None %}
+                            <h6 class="form-error" >{{ error_message }}</h6>
+                        {% endif %}
+                        {% for error in form.non_field_errors %}
+                            {{ error | escape }}
+                        {% endfor %}
+                    </div>
+
+                    <!-- Email -->
+                    <div id="email" class="col-md-4 offset-md-4 text-center">
+                        {% if form.email.errors %}
+                            <h6 class="form-error" >{{ form.email.errors }}</h6>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-3 offset-2 text-center">
+                        <label for="{{ form.email.id_for_label }}">Email:</label>
+                    </div>
+                    <div class="col-md-3">
+                        {{ form.email }}
+                    </div>
+
+                    <!-- Password -->
+                    <div id="password" class="col-md-4 offset-md-4 text-center">
+                        {% if form.password.errors %}
+                            <h6 style="text-align: center; color: orange;">{{ form.password.errors }}</h6>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3 offset-md-2 text-center">
+                        <label for="{{ form.password.id_for_label }}">Password</label>
+                    </div>
+                    <div class="col-md-3">
+                    {{ form.password }}
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="col-md-6 offset-md-4 btn-group">
+
+                        <div class="col-md-1 offset-md-2" style="margin-top: 20px">
+                            <button class="btn btn-dark btn-sm" type="submit">Login</button>
+                        </div>
+
+                        <div class="col-md-1 offset-md-2" style="margin-top: 20px">
+                            <a class="btn btn-dark btn-sm" type="button" href="{% url 'accounts:registration' %}">Sing up</a>
+                        </div>
+
+                    </div>
+
+                </form>
+                <!-- End form block -->
+
             </div>
-
-            <!-- Password -->
-            <div id="password" class="col-md-4 offset-md-4 text-center">
-                {% if form.password.errors %}
-                    <h6 style="text-align: center; color: orange;">{{ form.password.errors }}</h6>
-                {% endif %}
-                <label for="{{ form.password.id_for_label }}"></label>
-                {{ form.password }}
-            </div>
-
-            <!-- Buttons -->
-            <div class="col-md-6 offset-4 btn-group">
-
-                <div class="col-md-1 offset-md-1" style="margin-top: 20px">
-                    <button id="login-btn" class="btn btn-dark btn-lg" type="submit">Login</button>
-                </div>
-
-                <div class="col-md-1 offset-md-2" style="margin-top: 20px">
-                    <a class="btn btn-dark btn-lg" type="button" href="{% url 'accounts:registration' %}">Sing up</a>
-                </div>
-
-            </div>
-
-        </form>
-        <!-- End form block -->
-
+        </div>
     </div>
 
 {% endblock content %}

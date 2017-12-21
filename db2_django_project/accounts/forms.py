@@ -1,5 +1,4 @@
 from django import forms
-
 from accounts.models import User
 
 
@@ -7,7 +6,7 @@ class UserRegistrationForm(forms.ModelForm):
     """
     Generate form with email, password1 and password2.
     """
-    email = forms.EmailField(max_length=200, help_text='Enter your email.')
+    email = forms.EmailField(max_length=200, widget=forms.EmailInput(), help_text='Enter your email.')
     password1 = forms.CharField(min_length=8, max_length=40, widget=forms.PasswordInput(),
                                 help_text='Enter your password.')
     password2 = forms.CharField(min_length=8, max_length=40, widget=forms.PasswordInput(),

@@ -1,0 +1,146 @@
+{% extends 'blog_basic.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    Article
+{% endblock title %}
+
+{% block content %}
+
+    <div class="basic-body">
+        <div class="container">
+            <div class="row">
+
+                <!-- Article -->
+                <div class="col-md-10 offset-md-1 text-center">
+                    <h3>{{ article.title }}</h3>
+                </div>
+                <div class="col-md-10 offset-md-1 text-center">
+                    {% if article.title_image %}
+                        <img src="{{ article.title_image.url }}" width="550" height="550"/>
+                    {% else %}
+                        <img src=" {% static 'img/christmas.jpg' %}" width="550" height="550"/>
+                    {% endif %}
+                </div>
+                <div class="col-md-10 offset-md-1 text-center">
+                    <p>{{ article.body }}</p>
+                </div>
+                <div class="col-md-3 offset-md-1 text-center">
+                    <p>{{ article.author }}</p>
+                </div>
+                <div class="col-md-3 offset-md-4 text-center">
+                    <p>{{ article.created_date }}</p>
+                </div>
+
+                <div class="col-md-3 offset-md-1 text-center">
+                    <a href="{% url 'blog:article_detail_like' post=article.id %}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+                    <p>{{ article.liked_by.count }}</p>
+                </div>
+            </div>
+
+            <!-- Comments -->
+            <div class="basic-body">
+                <div class="container">
+                    <div class="row">
+                        <h4 class="col-md-12 text-center">
+                            Comments
+                        </h4>
+
+                        {% for comment in comments %}
+                            <div class="col-md-12 text-center comment-body">
+                                <p>{{ comment.body }}</p>
+                            </div>
+
+                            <div class="col-md-3 offset-md-2 text-center comment">
+                                <p>Author: {{ comment.author }}</p>
+                            </div>
+                            <div class="col-md-3 offset-md-2 text-center comment">
+                                <p>Created data: {{ comment.created_date }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Comment form -->
+                <div class="basic-body">
+                    <div class="container">
+                        <div class="row">
+
+                            <form class="form-inline" action="{% url 'blog:article_detail' pk=article.pk %}" method="POST">
+                                {% csrf_token %}
+
+                                <!-- Non_field_errors -->
+                                <div class="col-md-8 offset-md-4 text-center">
+                                    <!-- Non_field_errors -->
+                                    {% if error_message != None %}
+                                        <h6 class="form-error" >{{ error_message }}</h6>
+                                    {% endif %}
+                                    {% for error in form.non_field_errors %}
+                                        {{ error | escape }}
+                                    {% endfor %}
+                                </div>
+
+                                <!-- Comment -->
+                                <div id="email" class="col-md-4 offset-md-4 text-center">
+                                    {% if form.body.errors %}
+                                        <h6 class="form-error" >{{ form.body.errors }}</h6>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3 offset-md-2 text-center">
+                                    <label for="{{ form.body.id_for_label }}"></label>
+                                </div>
+                                <div class="col-md-5 offset-md-1">
+                                    {{ form.body }}
+                                </div>
+                                <div class="col-md-8 offset-md-4 btn-group">
+                                    <div class="col-md-2 offset-md-6" style="margin-top: 20px">
+                                        <button class="btn btn-basic" type="submit">Add comment</button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination block -->
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-2 offset-md-5 basic-body">
+                            <ul class="pagination pagination-sm">
+
+                                {% if comments.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ comments.previous_page_number }}"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+                                {% endif %}
+
+                                {% for page in pagination %}
+                                    <li class="page-item" {% if page == comments.number %} class="active" {% endif %}>
+                                        <a class="page-link" {% if page == '...' %}
+                                            >{{ page }}
+                                        {% else %}
+                                            href="?page={{ page }}">{{ page }}
+                                        {% endif %}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+
+                                {% if comments.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ comments.next_page_number }}"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+                                {% endif %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- End pagination block -->
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -127,8 +127,8 @@ class Logout(View):
     """
     Logout user from system and redirect to "accounts:login'.
     """
-    def get(request):
-        if request.user.is_authenticated():
+    def get(self, request):
+        if request.user.is_authenticated:
             logout(request)
             return redirect('accounts:login')
 
